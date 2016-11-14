@@ -1,0 +1,43 @@
+# building ignore
+target/
+*.jar
+*.war
+*.zip
+*.tar
+*.tar.gz
+node_modules
+
+apollo-static/src/main/webapp/combine/
+**/WEB-INF/work
+**/WEB-INF/upload
+**/WEB-INF/policytemplate
+
+# eclipse ignore
+.metadata
+.settings/
+.project
+.classpath
+*.launch
+.externalToolBuilders
+
+# idea ignore
+.idea/
+*.ipr
+*.iml
+*.iws
+
+#jrebel ignore
+rebel.xml
+
+# temp ignore
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+*.springBeans
+**/images/cache/
+
+# system ignore
+.DS_Store
+Thumbs.db
