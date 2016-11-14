@@ -25,6 +25,9 @@ apollo-static/src/main/webapp/combine/
 *.ipr
 *.iml
 *.iws
+*.eml
+*.MF
+*.userlibraries
 
 #jrebel ignore
 rebel.xml
