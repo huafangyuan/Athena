@@ -13,6 +13,7 @@
         <aop.version>1.8.9</aop.version>
         <cglib.version>3.2.4</cglib.version>
         <icepdf.version>6.1.2</icepdf.version>
+        <http.client.version>4.5.2</http.client.version>
         <!--plugin的属性定义-->
         <jdk.version>1.6</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -108,6 +109,13 @@
             <version>${icepdf.version}</version>
         </dependency>
         <!--icepdf end-->
+
+        <!--http client start-->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${http.client.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
