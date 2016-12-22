@@ -14,6 +14,8 @@
         <cglib.version>3.2.4</cglib.version>
         <icepdf.version>6.1.2</icepdf.version>
         <http.client.version>4.5.2</http.client.version>
+        <spring.amqp.version>1.5.6.RELEASE</spring.amqp.version>
+        <fastjson.version>1.2.21</fastjson.version>
         <!--plugin的属性定义-->
         <jdk.version>1.6</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -116,6 +118,41 @@
             <artifactId>httpclient</artifactId>
             <version>${http.client.version}</version>
         </dependency>
+        <!--http client end-->
+
+        <!--ampq rabbit start-->
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+            <version>${spring.amqp.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-messaging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-tx</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--ampq rabbit end-->
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

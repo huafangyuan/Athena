@@ -44,4 +44,7 @@
                  advice-ref="txAdvice" />
     </aop:config>
 
+    <!--rabbitmq 消息队列配置-->
+    <import resource="athena-rabbitmq.xml"/>
+
 </beans>
