@@ -16,6 +16,8 @@
         </property>
     </bean>
 
+    <import resource="athena-shiro.xml"/>
+
     <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiName" value="${jndiDBName}"/>
     </bean>

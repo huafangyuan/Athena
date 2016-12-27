@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-lazy-init="false"
+       xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${jedis.pool.maxIdle}"/>
+        <property name="minIdle" value="${jedis.pool.minIdle}"/>
+        <property name="maxWaitMillis" value="${jedis.pool.maxWaitMillis}"/>
+        <property name="testOnBorrow" value="${jedis.pool.testOnBorrow}"/>
+    </bean>
+
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+    p:hostName="${redis.host}" p:port="${redis.port}" p:password="${redis.password}" p:database="${redis.database}" p:poolConfig-ref="jedisPoolConfig"/>
+
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+    </bean>
+
+    <bean id="sessionCacheManager" class="com.invoker.fy.common.shiro.SingleValueThreadLocalCacheManager"/>
+
+    <bean id="redisSessionDAO" class="com.invoker.fy.common.shiro.RedisCacheSessionDAO">
+        <constructor-arg name="redisTemplate" ref="redisTemplate"/>
+        <constructor-arg name="prefix" value="${app.name}:${session.prefix}"/>
+        <property name="cacheManager" ref="sessionCacheManager"/>
+    </bean>
+
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg name="name" value="${session.cookie.name}"/>
+        <property name="path" value="/"/>
+    </bean>
+
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        <property name="sessionDAO" ref="redisSessionDAO"/>
+        <!-- 是否启用Session 主动验证 -->
+        <property name="sessionValidationSchedulerEnabled" value="${session.validate.enable}"/>
+        <!-- Session 主动验证时间间隔 （清除无效KEY）-->
+        <property name="sessionValidationInterval" value="${session.validate.interval}"/>
+    </bean>
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- shiro 核心安全接口-->
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 身份证认证失败，则跳转到登录页面的配置 -->
+        <property name="loginUrl" value="/login.jsp"/>
+        <!-- 权限认证失败，则跳转到指定页面-->
+        <property name="unauthorizedUrl" value="/nopower.jsp"/>
+        <!-- shiro连接约束配置，过滤链的定义-->
+        <property name="filterChainDefinitions">
+            <value>
+                <!--anon表示匿名访问-->
+                /loginAdmin=anon
+                <!--authc表示需要认证-->
+                /admin*=authc
+            </value>
+        </property>
+    </bean>
+
+</beans>
